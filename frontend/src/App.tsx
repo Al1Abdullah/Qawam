@@ -14,8 +14,9 @@ function App() {
   return (
     <div className="max-w-md mx-auto min-h-screen bg-background relative">
       <Routes>
-        <Route path="/" element={!isAuth ? <Onboarding /> : <Navigate to="/home" />} />
-        <Route path="/home" element={isAuth ? <Home /> : <Navigate to="/" />} />
+        <Route path="/" element={!isAuth ? <OnboardingPage /> : <Navigate to="/home" />} />
+        <Route path="/home" element={isAuth ? <HomePage /> : <Navigate to="/" />} />
+
         <Route path="/meals" element={isAuth ? <Meals /> : <Navigate to="/" />} />
         <Route path="/workout" element={isAuth ? <Workout /> : <Navigate to="/" />} />
         <Route path="/progress" element={isAuth ? <Progress /> : <Navigate to="/" />} />
