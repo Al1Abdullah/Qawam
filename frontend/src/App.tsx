@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { storage } from './services/storage';
+import OnboardingPage from './pages/OnboardingPage';
 
 // Placeholder Components
-const Onboarding = () => <div className="p-10 text-center">Onboarding (Root)</div>;
 const Home = () => <div className="p-10 text-center">Home</div>;
 const Meals = () => <div className="p-10 text-center">Meals</div>;
 const Workout = () => <div className="p-10 text-center">Workout</div>;
@@ -21,6 +21,11 @@ function App() {
         <Route path="/progress" element={isAuth ? <Progress /> : <Navigate to="/" />} />
       </Routes>
     </div>
+  );
+}
+
+export default App;
+</div>
   );
 }
 
