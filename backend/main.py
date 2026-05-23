@@ -10,7 +10,11 @@ app = FastAPI(title="Qawam API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://ubiquitous-waffle-69pwgpjw56762557q-5173.app.github.dev",
+        "http://localhost:5173",
+        "*"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

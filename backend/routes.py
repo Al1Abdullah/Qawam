@@ -7,10 +7,16 @@ router = APIRouter()
 
 @router.post("/auth/register")
 async def register(user: models.UserCreate):
-    res = database.save_user(user.dict())
-    if not res:
-        raise HTTPException(status_code=400, detail="Registration failed")
-    return {"user_id": res["id"]}
+    try:
+        res = database.save_user(user.dict())
+        if not res:
+            raise HTTPException(status_code=400, detail="Registration failed")
+        return {"user_id": res["id"]}
+    except Exception as e:
+        print(f"ERROR in /auth/register: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
 @router.post("/onboarding/profile")
 async def save_profile(user_id: str, profile: models.UserProfile):

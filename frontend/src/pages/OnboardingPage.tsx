@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Check, ChefHat, Clock, Target, User } from 'lucide-react';
 import { apiService } from '../services/api';
@@ -56,24 +56,43 @@ const OnboardingPage = () => {
         body_type: formData.bodyType,
         goal: formData.goal,
         activity_level: 'moderate',
-        schedule: {
-          wake_time: formData.wakeTime,
-          sleep_time: formData.sleepTime,
-          university_start: formData.noFixedSchedule ? null : formData.uniStart,
-          university_end: formData.noFixedSchedule ? null : formData.uniEnd,
-        },
-        kitchen_items: formData.kitchenItems,
       };
 
+      console.log('Submitting payload:', payload);
+      console.log('Sending registration payload:', payload);
       const res = await apiService.registerUser(payload);
+      console.log('Registration response:', res);
+
       if (res.user_id) {
-        storage.saveUserId(res.user_id);
+        const userId = res.user_id;
+        
+        console.log('Saving additional details for user:', userId);
+        // Save additional details
+        await Promise.all([
+          apiService.saveSchedule(userId, {
+            wake_time: formData.wakeTime,
+            sleep_time: formData.sleepTime,
+            university_start: formData.noFixedSchedule ? null : formData.uniStart,
+            university_end: formData.noFixedSchedule ? null : formData.uniEnd,
+          }),
+          apiService.saveKitchen(userId, {
+            items: formData.kitchenItems,
+          })
+        ]).then(() => {
+          console.log('Additional details saved successfully');
+        }).catch(err => {
+          console.error('Error saving additional details:', err);
+          throw err; // Re-throw to be caught by the outer catch
+        });
+
+        storage.saveUserId(userId);
         storage.saveUserName(formData.name);
         storage.setOnboardingDone(true);
         navigate('/home');
       }
-    } catch (err) {
-      setError('Something went wrong, try again');
+    } catch (err: any) {
+      console.error('Full registration error object:', err);
+      setError(`Server error: ${err?.response?.data?.detail || err?.message || JSON.stringify(err)}`);
     } finally {
       setLoading(false);
     }

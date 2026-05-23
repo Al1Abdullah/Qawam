@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Settings, ChevronRight, CheckCircle2, Weight, Utensils, Activity, Home, ClipboardList, Dumbbell, BarChart2, X } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -33,7 +33,7 @@ const HomePage = () => {
   };
 
   const getGreeting = () => {
-    const hour = new Date().hour || new Date().getHours();
+    const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
     if (hour < 17) return 'Good afternoon';
     return 'Good evening';

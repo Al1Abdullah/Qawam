@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { ChevronLeft, Flame, Calendar, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
