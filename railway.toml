@@ -1,0 +1,9 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "backend/Dockerfile"
+
+[deploy]
+startCommand = "uvicorn backend.main:app --host 0.0.0.0 --port 8000"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+healthcheckInterval = 30
